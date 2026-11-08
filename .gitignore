@@ -4,15 +4,17 @@
 *.tfstate.*
 *.tfvars
 *.tfvars.json
-crash.log
-override.tf
-override.tf.json
 *.tfplan
+crash.log
 
 # Ansible
 *.retry
 
-# Secrets
+# Credentials and secrets
 .env
 *.pem
 *.key
+*.ovpn
+
+# macOS
+.DS_Store
