@@ -1,0 +1,37 @@
+terraform {
+  required_version = ">= 1.13.0, < 2.0.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+  }
+}
+
+provider "aws" {
+  region  = "eu-central-1"
+  profile = "awslab"
+
+  allowed_account_ids = ["768814603451"]
+
+  default_tags {
+    tags = {
+      Project   = "aws-lab"
+      ManagedBy = "Terraform"
+      Env       = "lab"
+    }
+  }
+}
+
+data "terraform_remote_state" "network" {
+  backend = "local"
+
+  config = {
+    path = "${path.module}/../network/terraform.tfstate"
+  }
+}
+
+data "aws_ssm_parameter" "al2023" {
+  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
+}

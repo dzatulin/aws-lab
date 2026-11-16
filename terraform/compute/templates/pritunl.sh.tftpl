@@ -1,0 +1,50 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "=== Starting Pritunl installation ==="
+
+# MongoDB 8.0 repository
+cat > /etc/yum.repos.d/mongodb-org.repo <<'EOF'
+[mongodb-org-8.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/8.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://pgp.mongodb.com/server-8.0.asc
+EOF
+
+# Pritunl repository for AlmaLinux 9
+cat > /etc/yum.repos.d/pritunl.repo <<'EOF'
+[pritunl]
+name=Pritunl Repository
+baseurl=https://repo.pritunl.com/stable/yum/almalinux/9/
+gpgcheck=1
+enabled=1
+gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+EOF
+
+# Update installed packages
+dnf -y update
+
+# Remove legacy firewall services
+dnf -y remove iptables-services
+
+# Disable firewalld according to Pritunl installation guide
+systemctl disable --now firewalld.service || true
+
+# Install VPN and database packages
+dnf -y install \
+  pritunl \
+  pritunl-openvpn \
+  wireguard-tools \
+  mongodb-org
+
+# Enable and start services
+systemctl enable --now mongod
+systemctl enable --now pritunl
+
+# Verify services
+systemctl is-active --quiet mongod
+systemctl is-active --quiet pritunl
+
+echo "=== Pritunl installation completed successfully ==="
