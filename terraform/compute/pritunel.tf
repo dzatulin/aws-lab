@@ -13,6 +13,8 @@ resource "aws_instance" "pritunl" {
     {}
   )
 
+  source_dest_check = false
+
   user_data_replace_on_change = true
 
   associate_public_ip_address = true
