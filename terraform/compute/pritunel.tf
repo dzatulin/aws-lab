@@ -15,6 +15,12 @@ resource "aws_instance" "pritunl" {
 
   source_dest_check = false
 
+  # A replacement would interrupt VPN access and change the return-route target.
+  # Require an explicit maintenance decision before replacing this host.
+  lifecycle {
+    prevent_destroy = true
+  }
+
   user_data_replace_on_change = true
 
   associate_public_ip_address = true

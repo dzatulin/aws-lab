@@ -8,12 +8,16 @@ resource "pritunl_server" "lab" {
     pritunl_organization.lab.id
   ]
 
+  host_ids = [var.pritunl_host_id]
+  status   = var.pritunl_server_status
+
   hash            = "sha256"
   inter_client    = true
   network_mode    = "tunnel"
   restrict_routes = true
   vxlan           = true
 
+  # Preserve client IPs in Common; the Pritunl host manages the AWS return route.
   route {
     network     = "10.10.0.0/16"
     comment     = "common vpc"
@@ -21,15 +25,11 @@ resource "pritunl_server" "lab" {
     net_gateway = false
   }
 
+  # Dev returns SNAT traffic through the existing peering route to Common.
   route {
     network     = "10.20.0.0/16"
     comment     = "dev vpc"
     nat         = true
     net_gateway = false
   }
-
-  #lifecycle {
-  # ignore_changes = [route]
-  #}
-
 }

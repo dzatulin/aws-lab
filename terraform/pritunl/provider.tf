@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.13.0"
+  required_version = ">= 1.13.0, < 2.0.0"
 
   required_providers {
     pritunl = {
@@ -10,9 +10,9 @@ terraform {
 }
 
 provider "pritunl" {
-  url      = "https://localhost:8443"
-  token    = var.pritunl_api_token
-  secret   = var.pritunl_api_secret
+  url    = "https://localhost:8443"
+  token  = var.pritunl_api_token
+  secret = var.pritunl_api_secret
 
   # Self-signed certificate over SSM tunnel
   insecure = true

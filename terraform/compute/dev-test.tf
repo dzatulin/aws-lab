@@ -3,7 +3,7 @@ resource "aws_instance" "dev_test" {
   instance_type = "t3.micro"
 
   subnet_id = data.terraform_remote_state.network.outputs.dev_private_subnet_id
-  
+
   vpc_security_group_ids = [
     data.terraform_remote_state.network.outputs.dev_security_group_id
   ]

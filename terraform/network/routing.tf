@@ -9,6 +9,10 @@ resource "aws_internet_gateway" "common" {
 }
 
 # Route Tables
+# VPN return route 172.27.100.0/24 is managed outside Terraform by the
+# Pritunl host (CloudTrail: lab-common-ec2-ssm, CreateRoute on 2026-11-21).
+# Keep routes as standalone aws_route resources. Do not add an inline route
+# list or a duplicate VPN aws_route without an explicit ownership migration.
 
 resource "aws_route_table" "common_public" {
   vpc_id = aws_vpc.common.id
