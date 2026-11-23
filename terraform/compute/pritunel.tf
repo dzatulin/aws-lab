@@ -1,6 +1,6 @@
 resource "aws_instance" "pritunl" {
   ami           = var.pritunl_ami_id
-  instance_type = "t3.micro"
+  instance_type = "t3.small"
 
   subnet_id = data.terraform_remote_state.network.outputs.common_public_subnet_id
 
@@ -38,16 +38,4 @@ resource "aws_instance" "pritunl" {
   tags = {
     Name = "lab-pritunl-ec2"
   }
-}
-
-output "pritunl_instance_id" {
-  value = aws_instance.pritunl.id
-}
-
-output "pritunl_private_ip" {
-  value = aws_instance.pritunl.private_ip
-}
-
-output "pritunl_public_ip" {
-  value = aws_instance.pritunl.public_ip
 }

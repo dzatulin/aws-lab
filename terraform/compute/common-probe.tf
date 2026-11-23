@@ -28,8 +28,3 @@ resource "aws_instance" "common_probe" {
     Project     = "aws-lab"
   }
 }
-
-output "common_probe_private_ip" {
-  description = "Common VPC HTTP probe IP"
-  value       = aws_instance.common_probe.private_ip
-}

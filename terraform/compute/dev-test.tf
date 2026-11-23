@@ -29,8 +29,3 @@ resource "aws_instance" "dev_test" {
     Project     = "aws-lab"
   }
 }
-
-output "dev_test_private_ip" {
-  description = "Private IP of Dev test EC2"
-  value       = aws_instance.dev_test.private_ip
-}
