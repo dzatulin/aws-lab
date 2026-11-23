@@ -34,12 +34,25 @@ resource "aws_iam_role_policy" "pritunl_routes" {
         Effect = "Allow"
         Action = [
           "ec2:DescribeVpcs",
-          "ec2:DescribeRouteTables",
+          "ec2:DescribeRouteTables"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ManageCommonVpnReturnRoutes"
+        Effect = "Allow"
+        Action = [
           "ec2:CreateRoute",
           "ec2:ReplaceRoute",
           "ec2:DeleteRoute"
         ]
-        Resource = "*"
+        Resource = "arn:aws:ec2:eu-central-1:768814603451:route-table/*"
+        Condition = {
+          StringEquals = {
+            "aws:ResourceTag/Project" = "aws-lab"
+            "aws:ResourceTag/Name"    = "lab-common-public-rt"
+          }
+        }
       },
       {
         Effect = "Allow"

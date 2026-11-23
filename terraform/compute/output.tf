@@ -7,7 +7,7 @@ output "pritunl_private_ip" {
 }
 
 output "pritunl_public_ip" {
-  value = aws_instance.pritunl.public_ip
+  value = aws_eip.pritunl.public_ip
 }
 
 output "dev_test_private_ip" {

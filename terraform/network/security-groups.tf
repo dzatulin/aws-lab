@@ -63,7 +63,7 @@ resource "aws_vpc_security_group_egress_rule" "common_http" {
 resource "aws_vpc_security_group_ingress_rule" "pritunl_openvpn" {
   security_group_id = aws_security_group.common_test.id
 
-  description = "OpenVPN access from trusted client"
+  description = "Public OpenVPN listener; authentication is enforced by Pritunl"
   ip_protocol = "udp"
   from_port   = 19649
   to_port     = 19649

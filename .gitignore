@@ -18,3 +18,29 @@ crash.log
 
 # macOS
 .DS_Store
+
+# Local credentials, exports and diagnostics
+.env.*
+*.auto.tfvars*
+*.tfplan.*
+*.plan
+*.log
+*.p12
+*.pfx
+*.crt
+*.kubeconfig
+.gitleaks-report.*
+*.tfstate.lock.info
+terraform.rc
+.terraformrc
+crash.*.log
+
+# Database backups and local archives
+*.archive
+*.bson
+*.bson.gz
+*.tar
+*.tar.gz
+*.zip
+dump/
+backups/

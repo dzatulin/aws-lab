@@ -27,3 +27,14 @@ variable "pritunl_server_status" {
     error_message = "VPN server status must be offline or online."
   }
 }
+
+variable "pritunl_user_email" {
+  description = "Lab user email; supply locally, never hard-code personal contact details."
+  type        = string
+  sensitive   = true
+
+  validation {
+    condition     = can(regex("^[^@ ]+@[^@ ]+[.][^@ ]+$", var.pritunl_user_email))
+    error_message = "Provide a valid lab user email address."
+  }
+}
