@@ -67,4 +67,6 @@ aws ssm start-session \
 sudo pritunl default-password
 ```
 
-Авторизуємося у Web UI, змінюємо пароль адміністратора та активуємо Enterprise-ліцензію.
+Після авторизації відкриється вікно **Initial Setup**. Задаємо пароль адміністратора, вказуємо Public Address (Elastic IP) VPN-сервера та зберігаємо налаштування.
+
+![Pritunl Initial Setup](images/pritunl-initial-setup.png)
