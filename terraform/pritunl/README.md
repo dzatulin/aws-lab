@@ -35,30 +35,36 @@
 
 Підключаємося до EC2 через AWS SSM Session Manager:
 
+```bash
 aws ssm start-session \
-  --target i-02669ce16f2c11ef4 \
+  --target <PRITUNL_INSTANCE_ID> \
   --profile awslab \
   --region eu-central-1
+```
 
   Отримуємо ключ початкової ініціалізації Pritunl:
 
+```bash
 sudo pritunl setup-key
+```
 
 В окремому терміналі налаштовуємо Port Forwarding для доступу до Web UI:
 
+```bash
 aws ssm start-session \
-  --target i-02669ce16f2c11ef4 \
+  --target <PRITUNL_INSTANCE_ID> \
   --document-name AWS-StartPortForwardingSession \
   --parameters '{"portNumber":["443"],"localPortNumber":["8443"]}' \
   --profile awslab \
   --region eu-central-1
+```
 
 Відкриваємо https://localhost:8443, вводимо Setup Key та завершуємо ініціалізацію MongoDB (mongodb://localhost:27017/pritunl).
 
 Після ініціалізації отримуємо облікові дані адміністратора:
 
+```bas
 sudo pritunl default-password
+```
 
 Авторизуємося у Web UI, змінюємо пароль адміністратора та активуємо Enterprise-ліцензію.
-
-Актуальні тарифи: Pritunl Pricing.
