@@ -69,4 +69,12 @@ sudo pritunl default-password
 
 Після авторизації відкриється вікно **Initial Setup**. Задаємо пароль адміністратора, вказуємо Public Address (Elastic IP) VPN-сервера та зберігаємо налаштування.
 
-![Pritunl Initial Setup](images/pritunl-initial-setup.png)
+<p align="center">
+  <img src="images/pritunl-initial-setup.png"
+       alt="Pritunl Initial Setup"
+       width="650">
+</p>
+
+<p align="center">
+  <em>Рис. 1. Початкове налаштування Pritunl</em>
+</p>
