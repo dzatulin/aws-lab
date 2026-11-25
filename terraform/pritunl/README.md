@@ -29,8 +29,36 @@
 | IAM і SSM | [`compute/iam.tf`](../compute/iam.tf) |
 | Outputs | [`compute/output.tf`](../compute/output.tf) |
 
-## 3. Початкове налаштування Pritunl (вручну)
+## 3. Початкове налаштування Pritunl
 
-Після встановлення пакетів потрібно завершити одноразове налаштування Pritunl: підключення до MongoDB, створення/налаштування адміністратора, активацію Enterprise-ліцензії та генерацію API credentials. Сам факт успішного запуску `mongod` і `pritunl` ще не підтверджує готовність API.
+Після встановлення пакетів потрібно завершити початкового налаштування Pritunl: підключення до MongoDB, створення/налаштування адміністратора, активацію Enterprise-ліцензії та генерацію API credentials. 
 
-Для доступу до Web UI використовуйте SSM port forwarding. Параметри підключення Terraform Provider описані в [`provider.tf`](provider.tf).
+Підключаємося до EC2 через AWS SSM Session Manager:
+
+aws ssm start-session \
+  --target i-02669ce16f2c11ef4 \
+  --profile awslab \
+  --region eu-central-1
+
+  Отримуємо ключ початкової ініціалізації Pritunl:
+
+sudo pritunl setup-key
+
+В окремому терміналі налаштовуємо Port Forwarding для доступу до Web UI:
+
+aws ssm start-session \
+  --target i-02669ce16f2c11ef4 \
+  --document-name AWS-StartPortForwardingSession \
+  --parameters '{"portNumber":["443"],"localPortNumber":["8443"]}' \
+  --profile awslab \
+  --region eu-central-1
+
+Відкриваємо https://localhost:8443, вводимо Setup Key та завершуємо ініціалізацію MongoDB (mongodb://localhost:27017/pritunl).
+
+Після ініціалізації отримуємо облікові дані адміністратора:
+
+sudo pritunl default-password
+
+Авторизуємося у Web UI, змінюємо пароль адміністратора та активуємо Enterprise-ліцензію.
+
+Актуальні тарифи: Pritunl Pricing.
