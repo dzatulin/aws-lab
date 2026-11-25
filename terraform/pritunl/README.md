@@ -76,5 +76,5 @@ sudo pritunl default-password
 </p>
 
 <p align="center">
-  <em>Рис. 1. Початкове налаштування Pritunl</em>
+  <em>Початкове налаштування Pritunl</em>
 </p>
