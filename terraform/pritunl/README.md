@@ -38,7 +38,7 @@
 ```bash
 aws ssm start-session \
   --target <PRITUNL_INSTANCE_ID> \
-  --profile awslab \
+  --profile <AWS_PROFILE> \
   --region eu-central-1
 ```
 
@@ -55,7 +55,7 @@ aws ssm start-session \
   --target <PRITUNL_INSTANCE_ID> \
   --document-name AWS-StartPortForwardingSession \
   --parameters '{"portNumber":["443"],"localPortNumber":["8443"]}' \
-  --profile awslab \
+  --profile <AWS_PROFILE> \
   --region eu-central-1
 ```
 
@@ -110,3 +110,36 @@ sudo pritunl default-password
 </p>
 
 > **Важливо:** API Token та API Secret не слід зберігати в Git. Надалі вони використовуватимуться для автентифікації Terraform Provider.
+
+## 5. Керування Pritunl через Terraform
+
+Після активації Enterprise та генерації API credentials можна перейти до автоматизації конфігурації Pritunl через [Terraform Provider](https://registry.terraform.io/providers/disc/pritunl/latest/docs).
+
+У цьому прикладі Terraform керує Organization, Users, VPN Server та маршрутами. Конфігурація розділена на файли:
+
+- [provider.tf](provider.tf) — підключення до Pritunl API.
+- [organizations.tf](organizations.tf) — створення Organization.
+- [users.tf](users.tf) — керування користувачами.
+- [servers.tf](servers.tf) — VPN Server, CIDR, протокол і маршрути.
+
+### Налаштування API credentials
+
+У каталозі `terraform/pritunl` створюємо файл `terraform.tfvars`:
+
+```hcl
+pritunl_api_token  = "YOUR_API_TOKEN"
+pritunl_api_secret = "YOUR_API_SECRET"
+```
+
+Для доступу до API використовується AWS SSM Port Forwarding:
+
+```bash
+aws ssm start-session \
+  --target <PRITUNL_INSTANCE_ID> \
+  --document-name AWS-StartPortForwardingSession \
+  --parameters '{"portNumber":["443"],"localPortNumber":["8443"]}' \
+  --profile <AWS_PROFILE> \
+  --region eu-central-1
+```
+
+У поточній конфігурації [provider.tf](provider.tf) підключається до `https://localhost:8443`. Параметр `insecure = true` використовується через self-signed TLS-сертифікат. Для production рекомендовано налаштувати перевірку сертифіката.
