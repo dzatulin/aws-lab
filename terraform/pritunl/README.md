@@ -79,7 +79,7 @@ sudo pritunl default-password
   <em>Початкове налаштування Pritunl</em>
 </p>
 
-Активація Enterprise-ліцензії
+## 4. Активація Enterprise та налаштування API-доступу
 
 Для подальшого керування Pritunl через Terraform необхідний API-доступ, який доступний у Enterprise-версії.
 
@@ -98,3 +98,15 @@ sudo pritunl default-password
 <p align="center">
   <em>Активація Pritunl Enterprise</em>
 </p>
+
+Переходимо до **Administrators**, відкриваємо налаштування адміністратора та активуємо **Enable Token Authentication**.
+
+Натискаємо **Generate New API Key**, зберігаємо отримані **API Token** та **API Secret** і підтверджуємо зміни кнопкою **Modify**.
+
+<p align="center">
+  <img src="images/pritunl-api-credentials.png"
+       alt="Pritunl API Credentials"
+       width="550">
+</p>
+
+> **Важливо:** API Token та API Secret не слід зберігати в Git. Надалі вони використовуватимуться для автентифікації Terraform Provider.
