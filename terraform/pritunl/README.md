@@ -143,3 +143,51 @@ aws ssm start-session \
 ```
 
 У поточній конфігурації [provider.tf](provider.tf) підключається до `https://localhost:8443`. Параметр `insecure = true` використовується через self-signed TLS-сертифікат. Для production рекомендовано налаштувати перевірку сертифіката.
+
+
+## 6. Налаштування VPN та перевірка підключення
+
+Конфігурація VPN Server і маршрутизації визначена у [servers.tf](servers.tf).
+
+
+<p align="center">
+  <img src="images/pritunl-server.png"
+       alt="Pritunl VPN Server Configuration"
+       width="850">
+</p>
+
+<p align="center">
+  <em>Конфігурація Pritunl VPN Server із маршрутами до AWS VPC</em>
+</p>
+
+У поточній реалізації використовується OpenVPN (UDP) з окремою мережею для VPN-клієнтів та Split Tunneling. Маршрути до приватних AWS VPC передаються клієнтам через VPN, решта трафіку використовує локальне інтернет-підключення.
+
+### Підключення VPN-клієнта
+
+У Pritunl Web UI переходимо до **Users**, створюємо профіль підключення для користувача та імпортуємо його в [Pritunl Client](https://client.pritunl.com/#install).
+
+### Перевірка маршрутизації
+
+Після підключення перевіряємо маршрут до приватного ресурсу AWS:
+
+```bash
+route -n get <PRIVATE_IP>
+```
+
+Очікуємо, що трафік маршрутизується через VPN-інтерфейс (`utun` на macOS).
+
+Перевіряємо доступність приватного сервісу:
+
+```bash
+curl -v http://<PRIVATE_IP>:<PORT>
+```
+
+У нашій конфігурації доступ до Dev VPC через VPC Peering успішно перевірено.
+
+### NAT та Cloud Route Advertisement
+
+Для Common VPC використовується `NAT=false`, для Dev VPC — `NAT=true`.
+
+Pritunl Cloud Route Advertisement керує зворотним маршрутом до VPN CIDR через AWS API. Для цього EC2 використовує IAM Role та вимкнений Source/Destination Check.
+
+Відповідні налаштування AWS наведені в [IAM](../compute/iam.tf), [EC2](../compute/pritunel.tf) та [Routing](../network/routing.tf).

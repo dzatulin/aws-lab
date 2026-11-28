@@ -17,7 +17,7 @@ resource "pritunl_server" "lab" {
   # Preserve client IPs in Common; the Pritunl host manages the AWS return route.
   route {
     network     = "10.10.0.0/16"
-    comment     = "commonvpc"
+    comment     = "СommonVPC"
     nat         = false
     net_gateway = false
   }
@@ -25,7 +25,7 @@ resource "pritunl_server" "lab" {
   # Dev returns SNAT traffic through the existing peering route to Common.
   route {
     network     = "10.20.0.0/16"
-    comment     = "devvpc"
+    comment     = "DevVPC"
     nat         = true
     net_gateway = false
   }
