@@ -2,6 +2,15 @@
 
 Цей документ описує розгортання **self-hosted Pritunl Enterprise в AWS** із використанням Terraform. Основний підхід — **hybrid bootstrap**: Terraform створює AWS-ресурси та встановлює Pritunl і MongoDB, а початкове налаштування Pritunl, активація ліцензії та створення API credentials виконуються вручну. Після цього Terraform Provider керує підтримуваними параметрами VPN.
 
+## Зміст
+
+1. [Prerequisites](#1-prerequisites)
+2. [AWS-ресурси для Pritunl](#2-aws-ресурси-для-pritunl)
+3. [Початкове налаштування Pritunl](#3-початкове-налаштування-pritunl)
+4. [Активація Enterprise та налаштування API-доступу](#4-активація-enterprise-та-налаштування-api-доступу)
+5. [Керування Pritunl через Terraform](#5-керування-pritunl-через-terraform)
+6. [Налаштування VPN та перевірка підключення](#6-налаштування-vpn-та-перевірка-підключення)
+
 ## 1. Prerequisites
 
 Для розгортання потрібні:
