@@ -78,3 +78,23 @@ sudo pritunl default-password
 <p align="center">
   <em>Початкове налаштування Pritunl</em>
 </p>
+
+Активація Enterprise-ліцензії
+
+Для подальшого керування Pritunl через Terraform необхідний API-доступ, який доступний у Enterprise-версії.
+
+Після початкового налаштування відкриваємо розділ Subscription, активуємо ліцензію та переходимо до створення API Token і API Secret у розділі Administrators.
+
+Актуальні тарифи та придбання ліцензії: Pritunl Pricing(https://pritunl.com/#pricing).
+
+У Web UI натискаємо **Upgrade to Enterprise!** та активуємо ліцензію.
+
+<p align="center">
+  <img src="images/pritunl-enterprise-upgrade.png"
+       alt="Pritunl Enterprise Upgrade"
+       width="550">
+</p>
+
+<p align="center">
+  <em>Активація Pritunl Enterprise</em>
+</p>
